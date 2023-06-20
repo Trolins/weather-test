@@ -5,10 +5,10 @@
                 <h2>Weather</h2>
             </div>
             <div class="row select">       
-                <select-bar (currentWeatherInfo)="sendCurrentWeatherFnc($event)"></select-bar>         
+                <select-bar (currentZip)="sendCurrentZipFnc($event)"></select-bar>         
             </div>
             <div class="row">
-                <weather-info [weatherInfo] = currentWeatherInfo></weather-info>
+                <weather-info [zip] = currentZipInfo></weather-info>
             </div>
         </div>
     </div>

@@ -1,3 +1,12 @@
-<div class="container" *ngIf="weatherInfo">
-    <p>{{weatherInfo | json}}</p>
+<div class="container" *ngIf="showCurrent">
+    <mat-radio-group
+        aria-labelledby="example-radio-group-label"
+        class="example-radio-group"
+        [(ngModel)]="currentUnits">
+        <mat-radio-button class="example-radio-button" *ngFor="let unit of unitsList" [value]="unit" (change)="getWeather(zip, unit)">
+            {{unit}}
+        </mat-radio-button>
+    </mat-radio-group>
+    <p>{{zip}}</p>
+    <p>{{weatherData | json}}</p>
 </div>

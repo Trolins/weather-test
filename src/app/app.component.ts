@@ -7,6 +7,6 @@ import { Component, Input } from '@angular/core';
 })
 export class AppComponent {
   title = 'weather-test';
-  currentWeatherInfo : any;
-  sendCurrentWeatherFnc($event : any) { this.currentWeatherInfo = $event; }
+  currentZipInfo!: string;
+  sendCurrentZipFnc($event : any) { this.currentZipInfo = $event; }
 }

@@ -1,5 +1,4 @@
 import { Component, Input, Output, EventEmitter  } from '@angular/core';
-import { GetWeatherService } from '../services/get-weather.service';
 
 interface City {
   zip: string;
@@ -12,10 +11,10 @@ interface City {
   styleUrls: ['./select-bar.component.scss']
 })
 export class SelectBarComponent {
-  @Output() currentWeatherInfo = new EventEmitter<any>();
+  @Output() currentZip = new EventEmitter<any>();
   currentCity: string = '';
 
-  constructor(private weatherService: GetWeatherService) { }
+  constructor() { }
 
   cityList: City[] = [
     {zip: '03141', viewValue: 'Kyiv'},
@@ -24,12 +23,18 @@ export class SelectBarComponent {
     {zip: '49098', viewValue: 'Dnipro'},
   ];
 
-  getWeather(zip:string) {
+  selectCity(zip:string) {
     if (this.currentCity != zip) {
       this.currentCity = zip;
-      this.weatherService.GetCurrentWeather(zip).subscribe(
-        res => this.currentWeatherInfo.emit(res)
-      )
+      this.currentZip.emit(zip)
     }
   }
+  // getWeather(zip:string) {
+  //   if (this.currentCity != zip) {
+  //     this.currentCity = zip;
+  //     this.weatherService.GetCurrentWeather(zip).subscribe(
+  //       res => this.currentWeatherInfo.emit(res)
+  //     )
+  //   }
+  // }
 }

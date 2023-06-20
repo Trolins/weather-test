@@ -7,12 +7,15 @@ import { Observable, throwError } from 'rxjs';
 })
 export class GetWeatherService {
 
-  APIkey = '11111';
-  URL = 'http://api.openweathermap.org/data/2.5/forecast?q=';
+  APIkey = 'd41064eb03fb5126cd558ec4df2fbfb3';
+  URL = 'https://api.openweathermap.org/data/2.5/weather?q=';
 
   constructor(private http: HttpClient) { }
 
-  GetCurrentWeather(zip: any): Observable<any> {
-    return this.http.get(this.URL+zip+",ua&appid="+this.APIkey );
+  GetCurrentWeather(zip: string, units: string): Observable<any> {
+    return this.http.get(this.URL+zip+",UA&appid="+this.APIkey+"&units="+units );
   }
 }
+
+// https://api.openweathermap.org/data/2.5/weather?zip={zip code},{country code}&appid={API key}
+// https://api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}

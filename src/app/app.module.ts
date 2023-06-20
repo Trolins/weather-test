@@ -10,6 +10,7 @@ import { NgFor } from '@angular/common';
 import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatRadioModule} from '@angular/material/radio';
 import { WeatherInfoComponent } from './weather-info/weather-info.component';
 import { SelectBarComponent } from './select-bar/select-bar.component';
 
@@ -29,6 +30,7 @@ import { SelectBarComponent } from './select-bar/select-bar.component';
     MatFormFieldModule,
     MatSelectModule,
     MatInputModule,
+    MatRadioModule
   ],
   providers: [],
   bootstrap: [AppComponent]

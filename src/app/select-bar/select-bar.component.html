@@ -2,7 +2,7 @@
     <mat-form-field>
       <mat-label>Select city</mat-label>
       <mat-select name="city">
-        <mat-option *ngFor="let city of cityList" [value]="city.zip" (click)="getWeather(city.zip)">
+        <mat-option *ngFor="let city of cityList" [value]="city.zip" (click)="selectCity(city.zip)">
           {{city.viewValue}}
         </mat-option>
       </mat-select>
