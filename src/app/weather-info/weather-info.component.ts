@@ -1,9 +1,9 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
 import { WeatherData } from '../models/currentWeather.model';
 import { GetWeatherService } from '../services/get-weather.service';
-import { BehaviorSubject } from 'rxjs';
-
-
+import {MatDialog} from '@angular/material/dialog';
+import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'weather-info',
@@ -14,6 +14,7 @@ export class WeatherInfoComponent {
   @Input() zip!: string;
   weatherData: WeatherData = new WeatherData();
   iconUrl: string = 'https://openweathermap.org/img/wn/';
+  isLoad: boolean = false;
   myDate = new Date();
   currentUnits: string = 'metric';
   showCurrent: boolean = false;
@@ -21,40 +22,52 @@ export class WeatherInfoComponent {
 
   unitsList: string[] = ['metric', 'imperial'];
 
-  constructor(private weatherService: GetWeatherService) { }
+  constructor(
+    private weatherService: GetWeatherService,
+    public dialog: MatDialog,
+    ) { }
 
+  //check new city, and load new info
   ngOnChanges(changes: SimpleChanges): void {
-    // check if there are requests
     const latestRequest = changes['zip'];
     if (this.zip && latestRequest) {
       this.getWeather(this.zip, this.currentUnits);
     }
   }
   
-  ngOninit(){
+  //get data from OpenWeather api
+  getWeather(newZip:string, units:string) {
+    this.isLoad = true;
+    this.weatherService.GetCurrentWeather(newZip, units).subscribe(
+      res => {
+        this.weatherData.cityName = res.name;
+        this.weatherData.country = res.sys.country;
+        this.weatherData.description = res.weather[0].description;
+        this.weatherData.currentTemperature= res.main.temp;
+        this.weatherData.feels_like= res.main.feels_like;
+        this.weatherData.humidity = res.main.humidity;
+        this.weatherData.windSpeed = res.wind.speed;
+        this.weatherData.pressure = res.main.pressure;
+        this.weatherData.visibility = res.visibility;
+        this.weatherData.icon = res.weather[0].icon;
+        this.showCurrent = true;
+        this.showError = false;
+        this.isLoad = false;
+      },
+      error => {
+        //Open error dialog with data
+        this.showError = true;
+        this.isLoad = false;
+        this.openDialog(error);
+      }
+    )
   }
 
-  getWeather(newZip:string, units:string) {
-    this.weatherData = { "cityName": "Lviv", "country": "UA", "description": "broken clouds", "currentTemperature": 25.01, "humidity": 71, "windSpeed": 2.15, "icon": "04d" };
-    this.showCurrent = true;
+  //Open dialog fnc
+  openDialog(data:HttpErrorResponse): void {
+    this.dialog.open(ErrorDialogComponent, {
+      width: '350px',
+      data: data
+    });
   }
-  // getWeather(newZip:string, units:string) {
-  //   this.weatherService.GetCurrentWeather(newZip, units).subscribe(
-  //     res => {
-  //       this.weatherData.cityName = res.name;
-  //       this.weatherData.country = res.sys.country;
-  //       this.weatherData.description = res.weather[0].description;
-  //       this.weatherData.currentTemperature= res.main.temp;
-  //       this.weatherData.humidity = res.main.humidity;
-  //       this.weatherData.windSpeed = res.wind.speed;
-  //       this.weatherData.icon = res.weather[0].icon;
-  //       this.showCurrent = true;
-  //       this.showError = false;
-  //     },
-  //     error => {
-  //       this.showError = true;
-  //       console.log("error - ", error)
-  //     }
-  //   )
-  // }
 }

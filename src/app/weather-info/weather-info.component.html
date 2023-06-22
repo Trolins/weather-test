@@ -1,35 +1,82 @@
-<div class="container">
-    <div class="col-12 wrap cover" *ngIf="!showCurrent">
-        <p>Please, select city.</p>
-        <!-- <div class="row">
-        </div> -->
+<div class="row wrap cover" *ngIf="!showCurrent">
+    <p>Please, select city.</p>
+</div>
+<div class="wrap info" *ngIf="showCurrent">
+    <div class="loader" *ngIf="isLoad">
+        <mat-spinner color="primary"></mat-spinner>
     </div>
-    <div class="col-12 wrap info" *ngIf="showCurrent">
+    <div class="content" *ngIf="!isLoad">
+        <div class="city-name">
             <div class="row">
-                <div class="cityInfo col-12 col-sm-6">
+                <div class="city-info col-12 col-sm-6">
                     <h2>Weather in {{weatherData.cityName}}, {{weatherData.country}}</h2>
                     <span class="date">{{myDate | date: 'medium' }}</span>
                 </div>
+                <!-- Radio group to choose metric system -->
                 <mat-radio-group
-                    aria-labelledby="example-radio-group-label"
-                    class="example-radio-group col-12 col-sm-6"
+                    aria-labelledby="radio-group-label"
+                    class="col-12 col-sm-6"
                     [(ngModel)]="currentUnits">
-                    <mat-radio-button class="example-radio-button" color="primary" *ngFor="let unit of unitsList" [value]="unit" (change)="getWeather(zip, unit)">
-                        {{unit}}
+                    <mat-radio-button 
+                        style="font-weight: 500;"
+                        color="primary"
+                        *ngFor="let unit of unitsList"
+                        [value]="unit"
+                        (change)="getWeather(zip, unit)">
+                            {{unit}}
                     </mat-radio-button>
                 </mat-radio-group>
             </div>
-            <div class="row info-container">
-                <div class="col-12 col-sm-6">
-                    <img class="fit-picture" [src]="iconUrl+weatherData.icon+'@2x.png'" [alt]="weatherData.description">
-                    <p>{{weatherData.currentTemperature | number: '1.0-0'}}° <span [hidden]="currentUnits=='imperial'">C</span><span [hidden]="currentUnits=='metric'">F</span></p>
-                </div>
-                <div class="col-12 col-sm-6">
-                    <div class="row">
-                        <p>Feels like {{weatherData.currentTemperature | number: '1.0-0'}}° <span [hidden]="currentUnits=='imperial'">C</span><span [hidden]="currentUnits=='metric'">F</span>, {{ weatherData.description | titlecase }}</p>
+        </div>
+        <div class="info-container">
+            <div class="row">
+                <div class="weather-data col-12 col-sm-6">
+                    <div class="col-12">
+                        <div class="weather-icon">                                
+                            <p>
+                                <img class="fit-picture" [src]="iconUrl+weatherData.icon+'@2x.png'" [alt]="weatherData.description">
+                                {{weatherData.currentTemperature | number: '1.0-0'}}° 
+                                <span [hidden]="currentUnits=='imperial'">C</span>
+                                <span [hidden]="currentUnits=='metric'">F</span>
+                            </p>    
+                        </div>
+                    </div>  
+                    <div class="col-12">
+                        <div class="weather-feels">
+                            <p>
+                                Feels like {{weatherData.feels_like | number: '1.0-0'}}°
+                                <span [hidden]="currentUnits=='imperial'">C</span>
+                                <span [hidden]="currentUnits=='metric'">F</span>
+                                , {{ weatherData.description | titlecase }}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="weather-more-info">
+                            <ul>
+                                <li>
+                                    <i i-bs name="wind" width="17px" height="17px"></i> &nbsp;
+                                    <span>{{weatherData.windSpeed}}</span> &nbsp;
+                                    <span [hidden]="currentUnits=='imperial'">m/s</span>
+                                    <span [hidden]="currentUnits=='metric'">mph</span>
+                                </li>
+                                <li><span>Humidity: {{weatherData.humidity}}</span> %</li>
+                                <li>
+                                    <i i-bs name="compass" width="17px" height="17px"></i> &nbsp;
+                                    <span>{{weatherData.pressure}} hPa</span>
+                                </li>
+                                <li><span>Visibility:</span> {{weatherData.visibility/1000 }} km</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
+                <div class="city-image col-12 col-sm-6">
+                        <!-- place for google maps api, i don't want create google apiKey for test task with my credentials, i put here just png files -->
+                        <div class="text-center">
+                            <img class="img-thumbnail mx-auto d-block" width="210" [src]="'assets/city/'+weatherData.cityName+'.png'" [alt]="weatherData.cityName">
+                        </div>
+                </div>
             </div>
-        <!-- <p>{{weatherData | json}}</p> -->
+        </div>
     </div>
 </div>

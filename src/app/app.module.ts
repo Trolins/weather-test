@@ -11,14 +11,25 @@ import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatRadioModule} from '@angular/material/radio';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatButtonModule} from '@angular/material/button';
 import { WeatherInfoComponent } from './weather-info/weather-info.component';
 import { SelectBarComponent } from './select-bar/select-bar.component';
+import { NgxBootstrapIconsModule, compass, wind } from 'ngx-bootstrap-icons';
+import { ErrorDialogComponent } from './weather-info/error-dialog/error-dialog.component';
+
+const icons = {
+  wind,
+  compass
+};
 
 @NgModule({
   declarations: [
     AppComponent,
     WeatherInfoComponent,
-    SelectBarComponent
+    SelectBarComponent,
+    ErrorDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -30,7 +41,11 @@ import { SelectBarComponent } from './select-bar/select-bar.component';
     MatFormFieldModule,
     MatSelectModule,
     MatInputModule,
-    MatRadioModule
+    MatRadioModule,
+    MatProgressSpinnerModule,
+    MatDialogModule,
+    MatButtonModule,
+    NgxBootstrapIconsModule.pick(icons)
   ],
   providers: [],
   bootstrap: [AppComponent]
