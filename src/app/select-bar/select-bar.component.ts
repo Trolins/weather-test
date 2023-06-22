@@ -21,6 +21,7 @@ export class SelectBarComponent {
     {zip: '79007', viewValue: 'Lviv'},
     {zip: '40031', viewValue: 'Sumy'},
     {zip: '49098', viewValue: 'Dnipro'},
+    {zip: '76002', viewValue: 'Ivano-Frankivsk'},
   ];
 
   selectCity(zip:string) {
@@ -29,12 +30,4 @@ export class SelectBarComponent {
       this.currentZip.emit(zip)
     }
   }
-  // getWeather(zip:string) {
-  //   if (this.currentCity != zip) {
-  //     this.currentCity = zip;
-  //     this.weatherService.GetCurrentWeather(zip).subscribe(
-  //       res => this.currentWeatherInfo.emit(res)
-  //     )
-  //   }
-  // }
 }

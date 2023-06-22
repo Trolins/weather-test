@@ -4,6 +4,7 @@ import { GetWeatherService } from '../services/get-weather.service';
 import { BehaviorSubject } from 'rxjs';
 
 
+
 @Component({
   selector: 'weather-info',
   templateUrl: './weather-info.component.html',
@@ -11,11 +12,14 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class WeatherInfoComponent {
   @Input() zip!: string;
-  weatherData: WeatherData = new WeatherData()
+  weatherData: WeatherData = new WeatherData();
+  iconUrl: string = 'https://openweathermap.org/img/wn/';
+  myDate = new Date();
   currentUnits: string = 'metric';
   showCurrent: boolean = false;
+  showError: boolean = false;
 
-  unitsList: string[] = ['metric', 'Imperial'];
+  unitsList: string[] = ['metric', 'imperial'];
 
   constructor(private weatherService: GetWeatherService) { }
 
@@ -31,41 +35,26 @@ export class WeatherInfoComponent {
   }
 
   getWeather(newZip:string, units:string) {
-    this.weatherService.GetCurrentWeather(newZip, units).subscribe(
-      res => {
-        this.weatherData.cityName = res.name;
-        this.weatherData.description = res.weather[0].description;
-        this.weatherData.currentTemperature= res.main.temp;
-        this.weatherData.humidity = res.main.humidity;
-        this.weatherData.windSpeed = res.wind.speed;
-        this.weatherData.icon = res.weather[0].icon;
-        this.showCurrent = true;
-      }
-    )
+    this.weatherData = { "cityName": "Lviv", "country": "UA", "description": "broken clouds", "currentTemperature": 25.01, "humidity": 71, "windSpeed": 2.15, "icon": "04d" };
+    this.showCurrent = true;
   }
-
-  // this.subject.subscribe(res => {
-  //   console.log("res - ", res);
-  //   this.getWeather(res);
-  // })
-  // if (this.zip.length) {
-  //   this.getWeather(zip);
+  // getWeather(newZip:string, units:string) {
+  //   this.weatherService.GetCurrentWeather(newZip, units).subscribe(
+  //     res => {
+  //       this.weatherData.cityName = res.name;
+  //       this.weatherData.country = res.sys.country;
+  //       this.weatherData.description = res.weather[0].description;
+  //       this.weatherData.currentTemperature= res.main.temp;
+  //       this.weatherData.humidity = res.main.humidity;
+  //       this.weatherData.windSpeed = res.wind.speed;
+  //       this.weatherData.icon = res.weather[0].icon;
+  //       this.showCurrent = true;
+  //       this.showError = false;
+  //     },
+  //     error => {
+  //       this.showError = true;
+  //       console.log("error - ", error)
+  //     }
+  //   )
   // }
-    // console.log("this.weatherData - ", this.weatherData)
-          //     this.forecastData = new ForecastData();//Instance to store the Data of ForecastModel
-          //     this.forecastData.name = res.city.name;
-          // for(var i=7; i<res.list.length;i=i+8)//Since we want for 5 days. it Jumps 8 times to get to next day.(A day had 8 details in API.)
-          // {
-          //   //Instance of type ForecastDetails and stores the data in it.
-          //   var details = new ForecastDetails();
-          //       details.date = res.list[i].dt_txt;
-          //       details.maxTemperature = res.list[i].main.temp_max;
-          //       details.minTemperature = res.list[i].main.temp_min;
-          //       details.description = res.list[i].weather[0].description;
-          //       details.icon = res.list[i].weather[0].icon;
-          //       this.forecastData.details.push(details);//Pushing the data to the to created object
-  
-          // }
-          // this.showCurrent = false;
-          // this.showForecast = true;
 }

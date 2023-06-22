@@ -1,12 +1,35 @@
-<div class="container" *ngIf="showCurrent">
-    <mat-radio-group
-        aria-labelledby="example-radio-group-label"
-        class="example-radio-group"
-        [(ngModel)]="currentUnits">
-        <mat-radio-button class="example-radio-button" *ngFor="let unit of unitsList" [value]="unit" (change)="getWeather(zip, unit)">
-            {{unit}}
-        </mat-radio-button>
-    </mat-radio-group>
-    <p>{{zip}}</p>
-    <p>{{weatherData | json}}</p>
+<div class="container">
+    <div class="col-12 wrap cover" *ngIf="!showCurrent">
+        <p>Please, select city.</p>
+        <!-- <div class="row">
+        </div> -->
+    </div>
+    <div class="col-12 wrap info" *ngIf="showCurrent">
+            <div class="row">
+                <div class="cityInfo col-12 col-sm-6">
+                    <h2>Weather in {{weatherData.cityName}}, {{weatherData.country}}</h2>
+                    <span class="date">{{myDate | date: 'medium' }}</span>
+                </div>
+                <mat-radio-group
+                    aria-labelledby="example-radio-group-label"
+                    class="example-radio-group col-12 col-sm-6"
+                    [(ngModel)]="currentUnits">
+                    <mat-radio-button class="example-radio-button" color="primary" *ngFor="let unit of unitsList" [value]="unit" (change)="getWeather(zip, unit)">
+                        {{unit}}
+                    </mat-radio-button>
+                </mat-radio-group>
+            </div>
+            <div class="row info-container">
+                <div class="col-12 col-sm-6">
+                    <img class="fit-picture" [src]="iconUrl+weatherData.icon+'@2x.png'" [alt]="weatherData.description">
+                    <p>{{weatherData.currentTemperature | number: '1.0-0'}}° <span [hidden]="currentUnits=='imperial'">C</span><span [hidden]="currentUnits=='metric'">F</span></p>
+                </div>
+                <div class="col-12 col-sm-6">
+                    <div class="row">
+                        <p>Feels like {{weatherData.currentTemperature | number: '1.0-0'}}° <span [hidden]="currentUnits=='imperial'">C</span><span [hidden]="currentUnits=='metric'">F</span>, {{ weatherData.description | titlecase }}</p>
+                    </div>
+                </div>
+            </div>
+        <!-- <p>{{weatherData | json}}</p> -->
+    </div>
 </div>

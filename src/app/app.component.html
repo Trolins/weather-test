@@ -1,13 +1,18 @@
 <div class="container">
-    <div class="row">
-        <div class="col-12">
-            <div class="row">
-                <h2>Weather</h2>
+    <h1 class="col-12 title">Weather test widget</h1>
+    <div class="col-12 widget-window">
+        <div class="row">
+            <div class="col-12">
+                <div class="col-12 col-sm-4 select">       
+                    <select-bar (currentZip)="sendCurrentZipFnc($event)"></select-bar>         
+                </div>
+                <div class="col-12 col-sm-8">
+                    <!-- <p>Місце для вашої реклами</p> -->
+                </div>  
             </div>
-            <div class="row select">       
-                <select-bar (currentZip)="sendCurrentZipFnc($event)"></select-bar>         
-            </div>
-            <div class="row">
+        </div>
+        <div class="row">
+            <div class="col-12">
                 <weather-info [zip] = currentZipInfo></weather-info>
             </div>
         </div>
